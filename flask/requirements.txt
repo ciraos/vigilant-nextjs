@@ -1,0 +1,6 @@
+dotenv
+flask_cors
+flask_jwt_extended
+flask_login
+flask_sqlalchemy
+werkzeug

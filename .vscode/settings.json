@@ -1,0 +1,14 @@
+{
+    "editor.fontFamily": "'Maple Mono NF CN', 'Fira Code', Arial",
+    "editor.fontSize": 13,
+    "editor.fontLigatures": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.fontWeight": "normal",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.sortOrder": "type",
+    "files.autoSave": "onFocusChange",
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.iconTheme": "catppuccin-mocha"
+}
