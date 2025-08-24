@@ -1,5 +1,4 @@
 "use client";
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { FormProps } from 'antd';
 import {
@@ -37,18 +36,16 @@ export default function Login() {
     return (
         <>
             <div
-                className='w-max h-max py-3 px-6 rounded-xl bg-slate-200 flex justify-center items-center'
+                className='login_Form-div w-max h-max bg-slate-200 pt-4 px-4 rounded-xl shadow-md hover:shadow-xl'
             >
                 <Form
                     name="basic"
                     labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
+                    wrapperCol={{ span: 14 }}
+                    initialValues={{ remember: false }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
-                    className='transition-all duration-300 ease-in-out'
                 >
                     <Form.Item<FieldType>
                         label="用户名"
@@ -59,7 +56,7 @@ export default function Login() {
                     </Form.Item>
 
                     <Form.Item<FieldType>
-                        label="密码"
+                        label="密&nbsp;&nbsp;&nbsp;码"
                         name="password"
                         rules={[{ required: true, message: '请输入您的密码！' }]}
                     >
@@ -69,10 +66,6 @@ export default function Login() {
                     {/* <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item> */}
-
-                    <p className='mb-1 text-sm hover:underline'>
-                        <Link href="/register">没有账号？去注册！</Link>
-                    </p>
 
                     <Form.Item label={null}>
                         <Button type="primary" htmlType="submit">提交</Button>
