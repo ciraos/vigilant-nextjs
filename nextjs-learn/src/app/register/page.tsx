@@ -1,6 +1,5 @@
 "use client";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import type { FormProps } from 'antd';
 import {
     Button,
@@ -13,21 +12,21 @@ import "@ant-design/v5-patch-for-react-19";
 type FieldType = {
     username?: string;
     password?: string;
+    email?: string;
     // remember?: string;
 };
 
-export default function Login() {
-    const router = useRouter();
+export default function Register() {
+    // const router = useRouter();
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        const b = await fetch('/api/login', {
-            method: 'POST',
-            body: JSON.stringify(values),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        await b.json();
-        router.push('/dashboard');
-        // console.log('Success:', values);
+        // const e = await fetch('/api/register', {
+        //     method: 'POST',
+        //     body: JSON.stringify(values),
+        //     headers: { 'Content-Type': 'application/json' }
+        // });
+        // await e.json();
+        console.log('Success:', values);
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -48,7 +47,6 @@ export default function Login() {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
-                    className='transition-all duration-300 ease-in-out'
                 >
                     <Form.Item<FieldType>
                         label="用户名"
@@ -66,13 +64,17 @@ export default function Login() {
                         <Input.Password />
                     </Form.Item>
 
+                    <Form.Item<FieldType>
+                        label="邮箱"
+                        name="email"
+                        rules={[{ required: false, message: '请输入您的邮箱！' }]}
+                    >
+                        <Input placeholder='选填' />
+                    </Form.Item>
+
                     {/* <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item> */}
-
-                    <p className='mb-1 text-sm hover:underline'>
-                        <Link href="/register">没有账号？去注册！</Link>
-                    </p>
 
                     <Form.Item label={null}>
                         <Button type="primary" htmlType="submit">提交</Button>
