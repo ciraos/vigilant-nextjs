@@ -1,6 +1,6 @@
 {
-  "name": "nextjs-learn",
-  "version": "0.1.0",
+  "name": "nextjs-admin",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 6001",
@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.0.0",
     "@ant-design/nextjs-registry": "^1.1.0",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "antd": "^5.27.0",

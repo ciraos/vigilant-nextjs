@@ -25,7 +25,7 @@ export default function Login() {
             headers: { 'Content-Type': 'application/json' }
         });
         await b.json();
-        router.push('/dashboard');
+        router.push('/');
         // console.log('Success:', values);
     };
 

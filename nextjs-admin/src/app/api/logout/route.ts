@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function DELETE() {
     const res = NextResponse.json({
-        message: "Logout successful",
+        message: "登录成功！",
         success: true,
     });
 
@@ -10,7 +10,7 @@ export async function DELETE() {
         path: '/',
         maxAge: 0,
         httpOnly: true,
-        expires: new Date(0),
+        // expires: new Date(0),
     });
 
     return res;
