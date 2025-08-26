@@ -1,10 +1,11 @@
 
+#!
 flask/__pycache__
 flask/.venv
 flask/instance/data.db
 flask/app/__pycache__
 
-nextjs-learn/.next
-nextjs-learn/node_modules
-nextjs-learn/README.md
-nextjs-learn/pnpm-lock.yaml
+#!
+nextjs-admin/.next
+nextjs-admin/node_modules
+nextjs-admin/pnpm-lock.yaml
