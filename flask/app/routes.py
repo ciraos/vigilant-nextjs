@@ -13,7 +13,7 @@ def health_check():
     return jsonify({"msg": "APi is healthy now!"})
 
 #! 检查是否有管理员用户
-@auth_bp.route('/api/check-admin', methods=['GET'])
+@auth_bp.route('/check-admin', methods=['GET'])
 def check_admin():
     #? 检查是否有任何用户
     has_users = User.query.count() > 0
