@@ -44,6 +44,7 @@ def register():
         username=data['username'],
         # password=data['password'],
         email=data['email'],
+        website=data['website'],
         is_admin=is_first_user
     )
     new_user.set_password(data['password'])
@@ -55,6 +56,7 @@ def register():
         'username': new_user.username,
         'user_password': new_user.password,
         'email': new_user.email,
+        'website': new_user.website,
         'is_admin': new_user.is_admin
     }), 201
 
@@ -91,7 +93,8 @@ def login():
         'token': token,
         'ref_toekn': ref_token,
         'username': user.username,
-        'is_admin': user.is_admin
+        'is_admin': user.is_admin,
+        "website": user.website
     }), 200
 
 #! 删除
