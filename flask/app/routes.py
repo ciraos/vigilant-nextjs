@@ -31,7 +31,7 @@ def register():
     data = request.get_json()
     #? 验证输入
     if not data or not all(k in data for k in ('username', 'password', 'email')):
-        return jsonify({'error': 'Missing required fields'}), 400
+        return jsonify({'error': '缺失必要的字段！'}), 400
     #? 检查用户名和邮箱是否已存在
     if User.query.filter_by(username=data['username']).first():
         return jsonify({'error': '用户名已经存在！'}), 400
@@ -70,7 +70,6 @@ def refresh_token():
         access_token = new_token
     ), 200
 
-
 #! 登录
 @auth_bp.route('/login', methods=['POST'])
 def login():
@@ -90,11 +89,12 @@ def login():
     return jsonify({
         'message': '登录成功！',
         'user_id': user.id,
+        'username': user.username,
+        'password': user.password,
+        # "website": user.website,
+        'is_admin': user.is_admin,
         'token': token,
         'ref_toekn': ref_token,
-        'username': user.username,
-        'is_admin': user.is_admin,
-        "website": user.website
     }), 200
 
 #! 删除
@@ -105,22 +105,22 @@ def delete_account():
     #? 获取令牌
     token = request.headers.get('Authorization')
     if not token:
-        return jsonify({'error': 'Token is missing'}), 401
+        return jsonify({'error': '丢失Token令牌！'}), 401
     #? 移除Bearer前缀
     if token.startswith('Bearer '):
         token = token[7:]
     #? 验证令牌
     user_id = verify_token(token)
     if not user_id:
-        return jsonify({'error': 'Invalid or expired token'}), 401
+        return jsonify({'error': '无效或过期的令牌！'}), 401
     #? 查找用户
     user = User.query.get(user_id)
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        return jsonify({'error': '用户未找到'}), 404
     #? 删除用户
     db.session.delete(user)
     db.session.commit()
-    return jsonify({'message': 'Account deleted successfully'}), 200
+    return jsonify({'message': '账号删除成功'}), 200
 
 #! 修改密码
 @auth_bp.route('/change/password', methods=['PUT'])
@@ -130,25 +130,25 @@ def change_password():
     token = request.headers.get('Authorization')
     data = request.get_json()
     if not token:
-        return jsonify({'error': 'Token is missing'}), 401
+        return jsonify({'error': '丢失Token令牌！'}), 401
     #? 移除Bearer前缀
     if token.startswith('Bearer '):
         token = token[7:]
     #? 验证令牌
     user_id = verify_token(token)
     if not user_id:
-        return jsonify({'error': 'Invalid or expired token'}), 401
+        return jsonify({'error': '无效或过期的令牌！'}), 401
     #? 验证输入
     if not data or not all(k in data for k in ('old_password', 'new_password')):
-        return jsonify({'error': 'Missing old or new password'}), 400
+        return jsonify({'error': '缺失旧密码或新密码'}), 400
     #? 查找用户
     user = User.query.get(user_id)
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        return jsonify({'error': '用户未找到'}), 404
     #? 验证旧密码
     if not user.check_password(data['old_password']):
-        return jsonify({'error': 'Invalid old password'}), 401
+        return jsonify({'error': '旧密码不正确'}), 401
     #? 设置新密码
     user.set_password(data['new_password'])
-    db.session.commit()    
-    return jsonify({'message': 'Password changed successfully'}), 200
+    db.session.commit()
+    return jsonify({'message': '密码修改成功'}), 200

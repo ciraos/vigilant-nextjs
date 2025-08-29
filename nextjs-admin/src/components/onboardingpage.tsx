@@ -240,7 +240,7 @@ export default function OnboardingPage() {
                     <Form.Item
                         name="website"
                         label="网站"
-                        rules={[{ required: true, message: 'Please input website!' }]}
+                        rules={[{ required: false, message: 'Please input website!' }]}
                     >
                         <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
                             <Input />
