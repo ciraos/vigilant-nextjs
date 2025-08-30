@@ -50,9 +50,9 @@ const items: MenuItem[] = [
         icon: <Icon icon="mdi:post-it-note-outline" width="18px" height="18px" />,
         label: '博文',
         children: [
-            { key: '3', label: <Link href="/post-manage">管理</Link> },
-            { key: '4', label: <Link href="/post-edit">编写</Link> },
-            { key: '5', label: <Link href="/post-categories">分类</Link> },
+            { key: '2', label: <Link href="/post-manage">管理</Link> },
+            { key: '3', label: <Link href="/post-edit">编写</Link> },
+            { key: '4', label: <Link href="/post-categories">分类</Link> },
         ],
     },
     {
@@ -60,19 +60,23 @@ const items: MenuItem[] = [
         icon: <Icon icon="mdi:book-open-page-variant-outline" width="18px" height="18px" />,
         label: '页面',
         children: [
-            { key: '6', label: <Link href="/page-manage">管理</Link> },
-            { key: '7', label: <Link href="/page-edit">编辑</Link> },
+            { key: '5', label: <Link href="/page-manage">管理</Link> },
+            { key: '6', label: <Link href="/page-edit">编辑</Link> },
         ]
     },
     {
-        key: '8',
+        key: '7',
         icon: <Icon icon="mdi:comment-text-multiple-outline" width="18px" height="18px" />,
         label: <Link href="/comments">评论</Link>,
     },
     {
-        key: '9',
+        key: 'sub3',
         icon: <Icon icon="mdi:comment-quote-outline" width="18px" height="18px" />,
-        label: <Link href="/say">说说</Link>,
+        label: '说说',
+        children: [
+            { key: '8', label: <Link href="/shuoshuo-manage">管理</Link> },
+            { key: '9', label: <Link href="/shuoshuo-edit">编辑</Link> },
+        ]
     },
     {
         key: '999',
@@ -85,11 +89,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
     const router = useRouter();
     const [loading, setLoading] = useState(true);
 
-    const {
-        token: {
-            colorBgContainer
-        }
-    } = theme.useToken();
+    const { token: { colorBgContainer } } = theme.useToken();
 
     useEffect(() => {
         //? 检查是否需要显示引导页面
@@ -153,7 +153,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                                 <Menu
                                     // style={{}}
                                     defaultSelectedKeys={['1']}
-                                    defaultOpenKeys={['sub1']}
+                                    // defaultOpenKeys={['sub1']}
                                     mode='inline'
                                     items={items}
                                 />
@@ -164,7 +164,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                             </Sider>
                             <Layout>
                                 <Header style={{ padding: 0, background: colorBgContainer }} />
-                                <Content style={{ margin: '24px 16px 0', padding: '0 20px', overflow: 'initial', backgroundColor: '#fff', borderRadius: 12 }}>
+                                <Content style={{ margin: '10px 16px 0', padding: '10px 20px', overflow: 'initial', backgroundColor: '', borderRadius: 12 }}>
                                     {children}
                                 </Content>
                                 <Footer style={{ textAlign: 'center' }}>

@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import type { FormProps } from 'antd';
 import {
     Button,
-    // Checkbox,
     Form,
     Input
 } from 'antd';
@@ -12,7 +11,6 @@ import "@ant-design/v5-patch-for-react-19";
 type FieldType = {
     username?: string;
     password?: string;
-    // remember?: string;
 };
 
 export default function LoginPage() {
@@ -62,10 +60,6 @@ export default function LoginPage() {
                     >
                         <Input.Password />
                     </Form.Item>
-
-                    {/* <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item> */}
 
                     <Form.Item label={null}>
                         <Button type="primary" htmlType="submit">提交</Button>
