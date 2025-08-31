@@ -27,11 +27,3 @@ class Shuoshuo(db.Model):
     content     = db.Column(db.Text,        nullable=False)
     tags        = db.Column(db.String(64),  nullable=True)  
     created_at  = db.Column(db.DateTime,    default=datetime.utcnow)
-
-#! 友链模型
-class FriendLink(db.Model):
-    id          = db.Column(db.Integer,     primary_key=True)
-    name        = db.Column(db.String(64),  nullable=False, unqique=True)
-    url         = db.Column(db.String(120), nullable=False)
-    avatar      = db.Column(db.String(120), nullable=True)
-    descr       = db.Column(db.Text,        nullable=True)

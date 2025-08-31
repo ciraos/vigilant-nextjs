@@ -72,8 +72,8 @@ export default function ShuoshuoManage() {
                     <Empty />
                 ) : (
                     <Flex wrap gap="small">
-                        {data.map((item) => (
-                            <div key={item.id} className="w-60 h-40 p-4 rounded-xl bg-white">
+                        {data.map((item, index) => (
+                            <div key={index} className="w-60 h-40 p-4 rounded-xl bg-white">
                                 <div className="h-3/4 flex flex-col justify-between border-b-1 border-b-slate-300">
                                     <p className="overflow-hidden">{item.content}</p>
                                     <div className="flex justify-between text-sm text-slate-600">

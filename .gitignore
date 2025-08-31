@@ -9,3 +9,4 @@ flask/app/__pycache__
 nextjs-admin/.next
 nextjs-admin/node_modules
 nextjs-admin/pnpm-lock.yaml
+nextjs-admin/pnpm-workspace.yaml
