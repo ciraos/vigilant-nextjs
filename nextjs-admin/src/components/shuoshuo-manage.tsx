@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import {
     Alert,
     Button,
-    Divider,
     Empty,
     Flex,
     Spin,
@@ -21,7 +20,9 @@ interface Shuoshuo {
     created_at?: string;
 }
 
-const { Title } = Typography;
+const {
+    Title
+} = Typography;
 
 export default function ShuoshuoManage() {
     const [data, setData] = useState<Shuoshuo[]>([]);
@@ -41,7 +42,7 @@ export default function ShuoshuoManage() {
                 setError(null);
             } catch (err) {
                 setError(err instanceof Error ? err.message : '发生未知错误');
-                console.error('获取数据时出错:', err);
+                // console.error('获取数据时出错:', err);
             } finally {
                 setLoading(false);
             }

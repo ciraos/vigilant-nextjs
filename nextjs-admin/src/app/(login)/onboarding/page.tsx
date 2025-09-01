@@ -3,9 +3,7 @@ import { redirect } from "next/navigation";
 import OnboardingPage from "@/components/onboardingpage";
 
 export const metadata: Metadata = {
-    title: "xxx | 欢迎！",
-    description: "",
-    icons: ""
+    title: "xxx | 欢迎！"
 }
 
 export default function Onboarding() {

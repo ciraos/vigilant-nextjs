@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "http://localhost:3000",
     "http://localhost:6001",
-    "http://192.168.253.1:6001",
+    "http://192.168.0.110:6001",
     "*.ciraos.top"
   ],
   distDir: ".next",

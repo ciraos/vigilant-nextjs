@@ -1,43 +1,40 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
-import {
-    Tabs
-} from "antd";
-import type {
-    TabsProps
-} from "antd";
+import { Tabs } from "antd";
+import type { TabsProps } from "antd";
 import "@ant-design/v5-patch-for-react-19";
 
 export const metadata: Metadata = {
-    title: "xxx | 设置"
-};
+    title: "xxx | 评论"
+}
 
 const items: TabsProps['items'] = [
     {
         key: '1',
-        label: '网站信息',
+        label: `未读`,
         children: (<></>),
     },
     {
         key: '2',
-        label: '系统设置',
+        label: `已读`,
         children: (<></>),
     },
     {
         key: '3',
-        label: '安全',
+        label: `垃圾`,
         children: (<></>),
-    },
+    }
 ];
 
-export default function Settings() {
+export default function Comments() {
     return (
         <>
             <Tabs
                 animated
                 centered
                 defaultActiveKey="1"
-                items={items} />
+                items={items}
+            />
         </>
     )
 }

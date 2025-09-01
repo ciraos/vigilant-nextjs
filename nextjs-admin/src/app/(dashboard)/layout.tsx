@@ -79,6 +79,20 @@ const items: MenuItem[] = [
         ]
     },
     {
+        key: 'sub4',
+        icon: <Icon icon="mdi:account-group-outline" width="18px" height="18px" />,
+        label: '友链',
+        children: [
+            { key: '10', label: <Link href="/friend-manage">管理</Link> },
+            { key: '11', label: <Link href="/friend-edit">添加</Link> },
+        ]
+    },
+    {
+        key: '12',
+        icon: <Icon icon="mdi:file-multiple-outline" width="16px" height="16px" />,
+        label: <Link href="/files">文件</Link>,
+    },
+    {
         key: '999',
         icon: <Icon icon="mdi:mixer-settings" width="18px" height="18px" />,
         label: <Link href="/settings">设置</Link>,
@@ -89,7 +103,9 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
     const router = useRouter();
     const [loading, setLoading] = useState(true);
 
-    const { token: { colorBgContainer } } = theme.useToken();
+    const {
+        token: { colorBgContainer }
+    } = theme.useToken();
 
     useEffect(() => {
         //? 检查是否需要显示引导页面
@@ -158,7 +174,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                                     items={items}
                                 />
                                 <div className="h-16 flex items-center justify-around">
-                                    <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
+                                    <Avatar style={{ backgroundColor: '#f56a00' }}>C</Avatar>
                                     <Button type="primary" onClick={handlerLogout}>登出</Button>
                                 </div>
                             </Sider>

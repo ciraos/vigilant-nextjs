@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import LoginPage from "@/components/loginpage";
 
 export const metadata: Metadata = {
-    title: "xxx | 登录",
-    description: "",
-    icons: "",
+    title: "xxx | 登录"
 }
 
 export default function Login() {

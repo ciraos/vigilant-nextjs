@@ -44,7 +44,7 @@ export default function OnboardingPage() {
             headers: { 'Content-Type': 'application/json' }
         });
         await y.json();
-        router.push('/');
+        // router.push('/');
         // console.log('Received values of form: ', values);
     };
 

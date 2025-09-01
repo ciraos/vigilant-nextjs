@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from app import db
-from app.models import User, Shuoshuo
+from app.models import User, Shuoshuo, FriendLink
 from app.utils import generate_token, verify_token
 
 #!! 创建蓝图
@@ -228,3 +228,9 @@ def delete_shuoshuo(id):
     db.session.delete(shuoshuo)
     db.session.commit()
     return jsonify({'message': '说说删除成功！'}), 200
+
+#!! --------------- 友链相关 --------------- #
+
+#! 检测友链连通
+# def check_friendlink(url):
+    # """检查友链"""

@@ -3,8 +3,6 @@ import type { Metadata } from "next";
 import ShuoshuoManage from "@/components/shuoshuo-manage";
 
 export const metadata: Metadata = {
-    description: "",
-    icons: "",
     title: "xxx | 说说管理",
 }
 
