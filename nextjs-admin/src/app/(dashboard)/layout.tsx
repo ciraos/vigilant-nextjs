@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -26,24 +25,11 @@ type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 const { Sider, Header, Content, Footer } = Layout;
 
-const siderStyle: React.CSSProperties = {
-    overflow: 'auto',
-    height: '100vh',
-    position: 'sticky',
-    insetInlineStart: 0,
-    top: 0,
-    bottom: 0,
-    scrollbarWidth: 'thin',
-    scrollbarGutter: 'stable',
-    borderRight: '1px solid #eee',
-};
-
 const items: MenuItem[] = [
     {
         key: '1',
         icon: <Icon icon="pixelarticons:dashboard" width="18px" height="18px" style={{ color: '#000' }} />,
-        label: (<Link href="/">仪表盘</Link>
-        ),
+        label: (<Link href="/">仪表盘</Link>),
     },
     {
         key: 'sub1',
@@ -67,7 +53,7 @@ const items: MenuItem[] = [
     {
         key: '7',
         icon: <Icon icon="mdi:comment-text-multiple-outline" width="18px" height="18px" />,
-        label: <Link href="/comments">评论</Link>,
+        label: (<Link href="/comments">评论</Link>),
     },
     {
         key: 'sub3',
@@ -90,44 +76,24 @@ const items: MenuItem[] = [
     {
         key: '12',
         icon: <Icon icon="mdi:file-multiple-outline" width="16px" height="16px" />,
-        label: <Link href="/files">文件</Link>,
+        label: (<Link href="/files">文件</Link>),
     },
     {
         key: '999',
         icon: <Icon icon="mdi:mixer-settings" width="18px" height="18px" />,
-        label: <Link href="/settings">设置</Link>,
+        label: (<Link href="/settings">设置</Link>),
     }
 ];
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
 
     const {
-        token: { colorBgContainer }
+        token: {
+            colorBgContainer,
+            // borderRadiusLG
+        }
     } = theme.useToken();
-
-    useEffect(() => {
-        //? 检查是否需要显示引导页面
-        const checkAdminStatus = async () => {
-            try {
-                const res = await fetch('/api/check-admin');
-                const data = await res.json();
-                //? 如果没有任何用户，跳转到引导注册页面
-                if (!data.has_users) {
-                    router.push('/onboarding');
-                } else {
-                    setLoading(false);
-                }
-            } catch (error) {
-                console.error('错误：检查管理员状态！:', error);
-                setLoading(false);
-            }
-        };
-        checkAdminStatus();
-    }, [router]);
-
-    if (loading) { return (<html lang="zh-CN"><body><div className="flex items-center justify-center min-h-screen"><div id="ghost"><div id="red"><div id="pupil"></div><div id="pupil1"></div><div id="eye"></div><div id="eye1"></div><div id="top0"></div><div id="top1"></div><div id="top2"></div><div id="top3"></div><div id="top4"></div><div id="st0"></div><div id="st1"></div><div id="st2"></div><div id="st3"></div><div id="st4"></div><div id="st5"></div><div id="an1"></div><div id="an2"></div><div id="an3"></div><div id="an4"></div><div id="an5"></div><div id="an6"></div><div id="an7"></div><div id="an8"></div><div id="an9"></div><div id="an10"></div><div id="an11"></div><div id="an12"></div><div id="an13"></div><div id="an14"></div><div id="an15"></div><div id="an16"></div><div id="an17"></div><div id="an18"></div></div><div id="shadow"></div></div></div></body></html>); }
 
     const handlerLogout = async () => {
         const c = await fetch('/api/logout', {
@@ -162,16 +128,21 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                         }}
                     >
                         <Layout hasSider>
-                            <Sider style={siderStyle}>
+                            <Sider
+                                breakpoint="lg"
+                                collapsedWidth={0}
+                                zeroWidthTriggerStyle={{ backgroundColor: '#000' }}
+                                style={{ height: '100vh' }}
+                            >
                                 <div className="logo h-30 flex items-center justify-center">
                                     <Image src={avatar1} alt="Avatar" className="w-20 h-20 rounded-full animate-none" />
                                 </div>
                                 <Menu
-                                    // style={{}}
                                     defaultSelectedKeys={['1']}
-                                    // defaultOpenKeys={['sub1']}
                                     mode='inline'
                                     items={items}
+                                    theme="light"
+                                    style={{ margin: '0' }}
                                 />
                                 <div className="h-16 flex items-center justify-around">
                                     <Avatar style={{ backgroundColor: '#f56a00' }}>C</Avatar>

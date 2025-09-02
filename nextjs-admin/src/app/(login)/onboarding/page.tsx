@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import OnboardingPage from "@/components/onboardingpage";
 
 export const metadata: Metadata = {
@@ -7,6 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function Onboarding() {
-    redirect("/login");
     return (<><OnboardingPage /></>);
 }

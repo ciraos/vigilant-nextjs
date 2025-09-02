@@ -14,14 +14,15 @@ def health_check():
 
 #! --------------- 用户相关 --------------- #
 
-#! 检查是否有管理员用户
-@auth_bp.route('/check-admin', methods=['GET'])
+#! 检查是否有管理员及用户
+@auth_bp.route('/check-admin-and-user', methods=['GET'])
 def check_admin():
     #? 检查是否有任何用户
     has_users = User.query.count() > 0
     #? 检查是否有管理员
     has_admin = User.query.filter_by(is_admin=True).first() is not None
     return jsonify({
+        'success': True,
         'has_users': has_users,
         'has_admin': has_admin
     })
@@ -37,14 +38,11 @@ def register():
     #? 检查用户名和邮箱是否已存在
     if User.query.filter_by(username=data['username']).first():
         return jsonify({'error': '用户名已经存在！'}), 400
-    # if User.query.filter_by(email=data['email']).first():
-    #     return jsonify({'error': '邮箱已经存在！'}), 400
     #? 第一个注册的用户设为管理员
     is_first_user = User.query.count() == 0
     #? 创建新用户0
     new_user = User(
         username=data['username'],
-        # password=data['password'],
         email=data['email'],
         website=data['website'],
         is_admin=is_first_user
@@ -182,17 +180,17 @@ def create_shuoshuo():
 @auth_bp.route('/shuoshuo', methods=['GET'])
 def get_shuoshuo():
     """获取全部说说"""
-    shuoshuo = Shuoshuo.query.all()
-    if not shuoshuo:
-        return jsonify({'message': '没有说说，可能是您还没有发布说说！'})
+    shuoshuo_list = Shuoshuo.query.all()
+    if not shuoshuo_list:
+        return jsonify({'message': '没有说说，可能是您还没有发布说说！',}), 200
     return jsonify([
         {
-            'id': shuoshuo.id,
-            'content': shuoshuo.content,
-            'tags': shuoshuo.tags,
-            'created_at': shuoshuo.created_at
-        } for shuoshuo in shuoshuo
-    ])
+            'id': item.id,
+            'content': item.content,
+            'tags': item.tags,
+            'created_at': item.created_at
+        } for item in shuoshuo_list
+    ]), 200
 
 #! 获取单个
 @auth_bp.route('/shuoshuo/<int:id>', methods=['GET'])

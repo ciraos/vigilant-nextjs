@@ -36,6 +36,20 @@ const tailFormItemLayout = {
 export default function OnboardingPage() {
     const router = useRouter();
     const [form] = Form.useForm();
+    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
+
+    const onWebsiteChange = (value: string) => {
+        if (!value) {
+            setAutoCompleteResult([]);
+        } else {
+            setAutoCompleteResult(['.cc', '.com', '.com.cn', '.cyou', '.net', '.org', 'top'].map((domain) => `${value}${domain}`));
+        }
+    };
+
+    const websiteOptions = autoCompleteResult.map((website) => ({
+        label: website,
+        value: website,
+    }));
 
     const onFinish = async (values: any) => {
         const y = await fetch('/api/register', {
@@ -44,24 +58,9 @@ export default function OnboardingPage() {
             headers: { 'Content-Type': 'application/json' }
         });
         await y.json();
-        // router.push('/');
+        router.push('/');
         // console.log('Received values of form: ', values);
     };
-
-    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-    const onWebsiteChange = (value: string) => {
-        if (!value) {
-            setAutoCompleteResult([]);
-        } else {
-            setAutoCompleteResult(['.com', '.top', '.org', '.net'].map((domain) => `${value}${domain}`));
-        }
-    };
-
-    const websiteOptions = autoCompleteResult.map((website) => ({
-        label: website,
-        value: website,
-    }));
 
     return (
         <>
@@ -73,11 +72,10 @@ export default function OnboardingPage() {
                     form={form}
                     name="register"
                     onFinish={onFinish}
-                    initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
+                    initialValues={{}}
                     style={{ maxWidth: 600 }}
                     scrollToFirstError
                 >
-
                     <Form.Item
                         name="username"
                         label="用户名"
@@ -135,7 +133,6 @@ export default function OnboardingPage() {
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">提交</Button>
                     </Form.Item>
-
                 </Form>
             </div >
         </>

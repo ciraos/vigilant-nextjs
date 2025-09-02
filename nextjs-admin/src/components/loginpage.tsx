@@ -54,7 +54,7 @@ export default function LoginPage() {
                     </Form.Item>
 
                     <Form.Item<FieldType>
-                        label="密&nbsp;&nbsp;&nbsp;码"
+                        label="密码"
                         name="password"
                         rules={[{ required: true, message: '请输入您的密码！' }]}
                     >
