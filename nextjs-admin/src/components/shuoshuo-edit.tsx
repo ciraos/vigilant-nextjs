@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 import {
     Button,
     Form,
-    Input
+    Input,
+    Typography
 } from "antd";
 import type {
     FormProps,
@@ -22,6 +23,8 @@ type FieldType = {
 };
 
 const { TextArea } = Input;
+
+const { Title } = Typography;
 
 export default function ShuoshuoEdit() {
     const router = useRouter();
@@ -45,11 +48,13 @@ export default function ShuoshuoEdit() {
     return (
         <>
             {/* 发布说说 */}
+            <Title level={2}>发布说说</Title>
+
             <Form
                 name="basic"
-                labelCol={{ span: 8 }}
+                labelCol={{ span: 4 }}
                 wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600, margin: '25px 0 0' }}
+                style={{ width: '100%', margin: '0' }}
                 initialValues={{}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -61,11 +66,14 @@ export default function ShuoshuoEdit() {
                     rules={[{ required: true, message: '' }]}
                 >
                     <TextArea
-                        value={value}
+                        allowClear
+                        autoSize
+                        maxLength={500}
                         onChange={(e) => setValue(e.target.value)}
                         placeholder=""
                         showCount
-                        maxLength={500}
+                        value={value}
+                        variant="underlined"
                     />
                 </Form.Item>
 
@@ -75,11 +83,14 @@ export default function ShuoshuoEdit() {
                     rules={[{ required: true, message: '' }]}
                 >
                     <TextArea
-                        value={value}
+                        allowClear
+                        autoSize
+                        maxLength={10}
                         onChange={(e) => setValue(e.target.value)}
                         placeholder=""
                         showCount
-                        maxLength={10}
+                        value={value}
+                        variant="underlined"
                     />
                 </Form.Item>
 

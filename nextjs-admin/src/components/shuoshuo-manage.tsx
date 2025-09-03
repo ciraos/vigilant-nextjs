@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import {
     Alert,
     Button,
+    Drawer,
     Empty,
     Flex,
+    Modal,
     Spin,
     Typography
 } from "antd";
@@ -28,6 +30,30 @@ export default function ShuoshuoManage() {
     const [data, setData] = useState<Shuoshuo[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [open, setOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    //! 抽屉
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
+
+    //! 对话框
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,7 +75,7 @@ export default function ShuoshuoManage() {
                 //! 后端会返回一个message,无法返回数组Array，
                 //! 导致 fetch 报错！ 
                 setError(err instanceof Error ? err.message : '发生未知错误');
-                // console.error('获取数据时出错:', err);
+                console.error('获取数据时出错:', err);
             } finally {
                 setLoading(false);
             }
@@ -98,8 +124,8 @@ export default function ShuoshuoManage() {
                                         </div>
                                     </div>
                                     <div className="h-10 flex items-center justify-end gap-1">
-                                        <Button type="primary">编辑</Button>
-                                        <Button type="primary" danger>删除</Button>
+                                        <Button type="primary" onClick={showDrawer}>编辑</Button>
+                                        <Button type="primary" onClick={showModal} danger>删除</Button>
                                     </div>
                                 </div>
                             );
@@ -107,6 +133,32 @@ export default function ShuoshuoManage() {
                     </Flex>
                 )}
             </div>
+
+            <Drawer
+                title="编辑说说"
+                closable={{ 'aria-label': 'Close Button' }}
+                placement="right"
+                onClose={onClose}
+                open={open}
+            >
+                xxx
+            </Drawer>
+
+            <Modal
+                cancelText="取消"
+                centered
+                closable={{ 'aria-label': 'Close Button' }}
+                keyboard
+                mask
+                okText="确定"
+                okType="danger"
+                open={isModalOpen}
+                onCancel={handleCancel}
+                onOk={handleOk}
+                title="删除说说"
+            >
+                xxx
+            </Modal>
         </>
     );
 }

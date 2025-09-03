@@ -181,8 +181,8 @@ def create_shuoshuo():
 def get_shuoshuo():
     """获取全部说说"""
     shuoshuo_list = Shuoshuo.query.all()
-    if not shuoshuo_list:
-        return jsonify({'message': '没有说说，可能是您还没有发布说说！',}), 200
+    if len(shuoshuo_list) == 0:
+        return jsonify([]), 200
     return jsonify([
         {
             'id': item.id,
