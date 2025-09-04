@@ -5,11 +5,12 @@ from app import db
 #! 用户模型
 class User(db.Model):
     id          = db.Column(db.Integer,     primary_key=True)
+    nickname    = db.Column(db.String(64),  unique=True,    nullable=False)
     username    = db.Column(db.String(64),  unique=True,    nullable=False)
     password    = db.Column(db.String(128),                 nullable=False)
     avatar      = db.Column(db.String(120), unique=False,   nullable=True)
     email       = db.Column(db.String(120), unique=True,    nullable=True)
-    website     = db.Column(db.String(120), unique=True,    nullable=True)
+    website     = db.Column(db.String(120), unique=False,   nullable=True)
     is_admin    = db.Column(db.Boolean,     default=False)
     created_at  = db.Column(db.DateTime,    default=datetime.utcnow)
 
@@ -35,3 +36,12 @@ class FriendLink(db.Model):
     url         = db.Column(db.String(120), nullable=False)
     avatar      = db.Column(db.String(120), nullable=True)
     descr       = db.Column(db.Text,        nullable=True)
+
+#! 日记模型
+class Note(db.Model):
+    id          = db.Column(db.Integer,     primary_key=True)
+    title       = db.Column(db.String(64),  nullable=False)
+    content     = db.Column(db.Text,        nullable=False)
+    tags        = db.Column(db.String(64),  nullable=False)
+    author      = db.Column(db.String(10),  nullable=False)
+    created_at  = db.Column(db.DateTime,    default=datetime.utcnow)

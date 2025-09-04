@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
+
 import ShuoshuoEdit from "@/components/shuoshuo-edit";
 
 export const metadata: Metadata = {
     title: "xxx | 说说编辑",
 }
 
-export default async function ShuoshuoEditPage() {
+export default function ShuoshuoEditPage() {
     return (
         <>
             <ShuoshuoEdit />

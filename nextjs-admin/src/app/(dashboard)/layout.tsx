@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,13 +16,12 @@ import {
     theme
 } from "antd";
 import type {
-    GetProp,
     MenuProps
 } from 'antd';
 import "@ant-design/v5-patch-for-react-19";
 import { Icon } from "@iconify/react";
 
-type MenuItem = GetProp<MenuProps, 'items'>[number];
+type MenuItem = Required<MenuProps>['items'][number];
 
 const { Sider, Header, Content, Footer } = Layout;
 
@@ -34,6 +34,7 @@ const siderStyle: React.CSSProperties = {
     bottom: 0,
     scrollbarWidth: 'thin',
     scrollbarGutter: 'stable',
+    zIndex: 999,
 };
 
 const items: MenuItem[] = [
@@ -85,12 +86,16 @@ const items: MenuItem[] = [
         ]
     },
     {
-        key: '12',
+        key: 'sub5',
         icon: <Icon icon="mdi:notebook-edit-outline" width="18" height="18" />,
-        label: <Link href="/notes">日记</Link>
+        label: '日记',
+        children: [
+            { key: '12', label: <Link href="/note-manage">管理</Link> },
+            { key: '13', label: <Link href="/note-edit">编辑</Link> },
+        ]
     },
     {
-        key: '13',
+        key: '998',
         icon: <Icon icon="mdi:file-multiple-outline" width="16" height="16" />,
         label: (<Link href="/files">文件</Link>),
     },
@@ -101,9 +106,32 @@ const items: MenuItem[] = [
     }
 ];
 
+interface LevelKeysProps {
+    key?: string;
+    children?: LevelKeysProps[];
+}
+
+const getLevelKeys = (items1: LevelKeysProps[]) => {
+    const key: Record<string, number> = {};
+    const func = (items2: LevelKeysProps[], level = 1) => {
+        items2.forEach((item) => {
+            if (item.key) {
+                key[item.key] = level;
+            }
+            if (item.children) {
+                func(item.children, level + 1);
+            }
+        });
+    };
+    func(items1);
+    return key;
+};
+
+const levelKeys = getLevelKeys(items as LevelKeysProps[]);
+
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const router = useRouter();
-
+    const [stateOpenKeys, setStateOpenKeys] = useState(['2', '23']);
     const { token: { } } = theme.useToken();
 
     const handlerLogout = async () => {
@@ -115,6 +143,27 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
             router.push('/login');
         }
         // console.log( data );
+    };
+
+    const onOpenChange: MenuProps['onOpenChange'] = (openKeys) => {
+        const currentOpenKey = openKeys.find((key) => stateOpenKeys.indexOf(key) === -1);
+        // open
+        if (currentOpenKey !== undefined) {
+            const repeatIndex = openKeys
+                .filter((key) => key !== currentOpenKey)
+                .findIndex((key) => levelKeys[key] === levelKeys[currentOpenKey]);
+
+            setStateOpenKeys(
+                openKeys
+                    // remove repeat key
+                    .filter((_, index) => index !== repeatIndex)
+                    // remove current level all child
+                    .filter((key) => levelKeys[key] <= levelKeys[currentOpenKey]),
+            );
+        } else {
+            // close
+            setStateOpenKeys(openKeys);
+        }
     };
 
     return (
@@ -148,6 +197,8 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                                 <Menu
                                     defaultSelectedKeys={['1']}
                                     items={items}
+                                    onOpenChange={onOpenChange}
+                                    openKeys={stateOpenKeys}
                                     mode='inline'
                                     theme="light"
                                 />
@@ -159,7 +210,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                             <Layout
                                 style={{}}
                             >
-                                <Header style={{ margin: 0, padding: 0, height: 0, background: 'none' }} />
+                                <Header style={{ margin: 0, padding: 0, height: 1, background: 'none' }} />
                                 <Content style={{ margin: '0', padding: '40px 20px 0', overflow: 'initial', backgroundColor: 'none', borderRadius: 0 }}>
                                     {children}
                                 </Content>

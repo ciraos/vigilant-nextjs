@@ -1,11 +1,10 @@
 'use client';
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-    AutoComplete,
     Button,
     Form,
     Input,
+    Select,
 } from 'antd';
 import "@ant-design/v5-patch-for-react-19";
 
@@ -33,23 +32,32 @@ const tailFormItemLayout = {
     },
 };
 
-export default function OnboardingPage() {
+const { Option } = Select;
+
+const selectBefore = (
+    <Select defaultValue="http://">
+        <Option value="http://">http://</Option>
+        <Option value="https://">https://</Option>
+    </Select>
+);
+const selectAfter = (
+    <Select defaultValue=".com">
+        <Option value=".cc">.cc</Option>
+        <Option value=".cn">.cn</Option>
+        <Option value=".com">.com</Option>
+        <Option value=".com.cc">.com.cn</Option>
+        <Option value=".cyou">.cyou</Option>
+        <Option value=".fun">.fun</Option>
+        <Option value=".jp">.jp</Option>
+        <Option value=".net">.net</Option>
+        <Option value=".org">.org</Option>
+        <Option value=".top">.top</Option>
+    </Select>
+);
+
+export default function SetupPage() {
     const router = useRouter();
     const [form] = Form.useForm();
-    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-    const onWebsiteChange = (value: string) => {
-        if (!value) {
-            setAutoCompleteResult([]);
-        } else {
-            setAutoCompleteResult(['.cc', '.com', '.com.cn', '.cyou', '.net', '.org', 'top'].map((domain) => `${value}${domain}`));
-        }
-    };
-
-    const websiteOptions = autoCompleteResult.map((website) => ({
-        label: website,
-        value: website,
-    }));
 
     const onFinish = async (values: any) => {
         const y = await fetch('/api/register', {
@@ -58,7 +66,7 @@ export default function OnboardingPage() {
             headers: { 'Content-Type': 'application/json' }
         });
         await y.json();
-        router.push('/');
+        router.push('/login');
         // console.log('Received values of form: ', values);
     };
 
@@ -77,9 +85,17 @@ export default function OnboardingPage() {
                     scrollToFirstError
                 >
                     <Form.Item
+                        name="nickname"
+                        label="昵称"
+                        tooltip="您想让别人怎么称呼您？"
+                        rules={[{ required: true, message: '请输入您的昵称！', whitespace: false }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
                         name="username"
                         label="用户名"
-                        tooltip="您想让我们怎么称呼您？"
+                        tooltip="这是您用来登录账户的name："
                         rules={[{ required: true, message: '请输入您的用户名！', whitespace: false }]}
                     >
                         <Input />
@@ -125,9 +141,10 @@ export default function OnboardingPage() {
                         label="网站"
                         rules={[{ required: false, message: '请输入网站！' }]}
                     >
-                        <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
-                            <Input />
-                        </AutoComplete>
+                        <Input
+                            addonBefore={selectBefore}
+                            addonAfter={selectAfter}
+                        />
                     </Form.Item>
 
                     <Form.Item {...tailFormItemLayout}>

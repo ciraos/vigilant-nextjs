@@ -1,18 +1,18 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from app import db
-from app.models import User, Shuoshuo, FriendLink
+from app.models import User, Shuoshuo, FriendLink, Note
 from app.utils import generate_token, verify_token
 
 #!! 创建蓝图
 auth_bp = Blueprint('auth', __name__)
 
-#! 健康检查
+#!! 健康检查
 @auth_bp.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"msg": "APi is healthy now!"})
 
-#! --------------- 用户相关 --------------- #
+#!! --------------- 用户相关 --------------- !!#
 
 #! 检查是否有管理员及用户
 @auth_bp.route('/check-admin-and-user', methods=['GET'])
@@ -22,7 +22,6 @@ def check_admin():
     #? 检查是否有管理员
     has_admin = User.query.filter_by(is_admin=True).first() is not None
     return jsonify({
-        'success': True,
         'has_users': has_users,
         'has_admin': has_admin
     })
@@ -33,18 +32,19 @@ def register():
     """用户注册"""
     data = request.get_json()
     #? 验证输入
-    if not data or not all(k in data for k in ('username', 'password', 'email')):
+    if not data or not all(k in data for k in ('nickname', 'username', 'password')):
         return jsonify({'error': '缺失必要的字段！'}), 400
     #? 检查用户名和邮箱是否已存在
-    if User.query.filter_by(username=data['username']).first():
+    if User.query.filter_by(username=data['nickname']).first():
         return jsonify({'error': '用户名已经存在！'}), 400
     #? 第一个注册的用户设为管理员
     is_first_user = User.query.count() == 0
     #? 创建新用户0
     new_user = User(
+        nickname=data['nickname'],
         username=data['username'],
         email=data['email'],
-        website=data['website'],
+        # website=data['website'],
         is_admin=is_first_user
     )
     new_user.set_password(data['password'])
@@ -53,10 +53,11 @@ def register():
     return jsonify({
         'message': '用户创建成功！',
         'user_id': new_user.id,
+        'nickname': new_user.nickname,
         'username': new_user.username,
         'user_password': new_user.password,
         'email': new_user.email,
-        'website': new_user.website,
+        # 'website': new_user.website,
         'is_admin': new_user.is_admin
     }), 201
 
@@ -90,8 +91,9 @@ def login():
         'message': '登录成功！',
         'user_id': user.id,
         'username': user.username,
+        'nickname': user.nickname,
         'password': user.password,
-        # "website": user.website,
+        "website": user.website,
         'is_admin': user.is_admin,
         'token': token,
         'ref_toekn': ref_token,
@@ -153,7 +155,7 @@ def change_password():
     db.session.commit()
     return jsonify({'message': '密码修改成功'}), 200
 
-#! --------------- 说说相关 --------------- #
+#!! --------------- 说说相关 --------------- !!#
 
 #! 创建
 @auth_bp.route('/shuoshuo', methods=['POST'])
@@ -227,8 +229,53 @@ def delete_shuoshuo(id):
     db.session.commit()
     return jsonify({'message': '说说删除成功！'}), 200
 
-#!! --------------- 友链相关 --------------- #
+#!! --------------- 友链相关 --------------- !!#
 
-#! 检测友链连通
+#!! 检测友链连通
 # def check_friendlink(url):
     # """检查友链"""
+
+#!! ---------------- 日记相关 ---------------- !!#
+
+#! 创建日记
+@auth_bp.route('/note', methods=['POST'])
+def create_note():
+    """创建日记"""
+    data = request.get_json()
+    if not data or not all(k in data for k in ('title', 'content', 'tags', 'author')):
+        return jsonify({'error': '缺失必要的字段！'}), 400
+    new_note = Note(
+        title=data['title'],
+        content=data['content'],
+        tags=data['tags'],
+        author=data['author']
+    )
+    db.session.add(new_note)
+    db.session.commit()
+    return jsonify({
+        'message': '日记创建成功！',
+        'id': new_note.id,
+        'title': new_note.title,
+        'content': new_note.content,
+        'tags': new_note.tags,
+        'author': new_note.author,
+        'created_at': new_note.created_at
+    }), 201
+
+#! 获取全部日记
+@auth_bp.route('/note', methods=['GET'])
+def get_note():
+    """获取全部日记"""
+    note_list = Note.query.all()
+    if len(note_list) == 0:
+        return jsonify([]), 200
+    return jsonify([
+        {
+            'id': item.id,
+            'title': item.title,
+            'content': item.content,
+            'tags': item.tags,
+            'author': item.author,
+            'created_at': item.created_at
+        } for item in note_list
+    ]), 200

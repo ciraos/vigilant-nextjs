@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import {
     Card,
-    Flex,
     Typography
 } from "antd";
 import "@ant-design/v5-patch-for-react-19";
@@ -40,9 +39,6 @@ export default function DashboardPage() {
                 setssData(result);
                 setError(null);
             } catch (err) {
-                //! 并非错误，在没有发布说说的情况下，
-                //! 后端会返回一个message,无法返回数组Array，
-                //! 导致 fetch 报错！ 
                 setError(err instanceof Error ? err.message : '发生未知错误');
                 console.error('获取数据时出错:', err);
             } finally {

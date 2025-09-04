@@ -7,7 +7,6 @@ let checkInProgress = false;
 
 //? 检查是否存在注册用户的函数
 async function checkForRegisteredUsers() {
-    //?
     if (hasUsers !== null) {
         return hasUsers;
     }
@@ -61,32 +60,31 @@ async function checkForRegisteredUsers() {
 export async function middleware(req: NextRequest) {
     //? 从cookies获取用户认证信息
     const token = req.cookies.get('token')?.value;
-    const isLoggedIn = !!token;
 
     //? 定义特殊路由
-    const isAuthPage = req.nextUrl.pathname === ('/login');
-    const isOnboardingPage = req.nextUrl.pathname === ('/onboarding');
+    const isLoginPage = req.nextUrl.pathname === ('/login');
+    const isSetupPage = req.nextUrl.pathname === ('/setup');
 
     //? 检查是否有注册用户
     const hasUser = await checkForRegisteredUsers();
-    // console.log(!hasUsers);
+    // console.log(hasUsers);
 
     //? 场景1: 没有注册用户
     if (!hasUser) {
         //? 如果不在引导页，跳转到引导页
-        if (!isOnboardingPage) {
-            return NextResponse.redirect(new URL('/onboarding', req.url));
+        if (!isSetupPage) {
+            return NextResponse.redirect(new URL('/setup', req.url));
         }
     }
     //? 场景2: 已有注册用户
     else {
         //? 已登录用户访问登录页，跳转到首页
-        if (isLoggedIn && isAuthPage) {
+        if (token && isLoginPage) {
             return NextResponse.redirect(new URL('/', req.url));
         }
 
         //? 未登录用户访问非登录页，跳转到登录页
-        if (!isLoggedIn && !isAuthPage) {
+        if (!token && !isLoginPage) {
             return NextResponse.redirect(new URL('/login', req.url));
         }
     }
