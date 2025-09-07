@@ -10,18 +10,21 @@ async function checkForRegisteredUsers() {
     if (hasUsers !== null) {
         return hasUsers;
     }
+
     //? 如果正在检查中，等待一段时间后重试
     if (checkInProgress) {
         let retries = 0;
-        const maxRetries = 70; // 最多重试70次，避免无限等待
+        const maxRetries = 10; //! 最多重试10次，避免无限等待
         while (checkInProgress && retries < maxRetries) {
             await new Promise(resolve => setTimeout(resolve, 100));
             retries++;
         }
+
         //? 如果仍然在进行中，返回默认值
         if (checkInProgress) {
             return false;
         }
+
         //? 重新检查 has_users 状态
         if (hasUsers !== null) {
             return hasUsers;
@@ -33,7 +36,7 @@ async function checkForRegisteredUsers() {
 
     try {
         //! 调用专门的API路由检查是否有注册用户
-        const res = await fetch('http://127.0.0.1:5000/check-admin-and-user', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/check-admin-and-user`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json', },
             cache: 'no-store',
@@ -45,9 +48,11 @@ async function checkForRegisteredUsers() {
         }
 
         const data = await res.json();
-        // console.log(data);
         hasUsers = data.has_users;
-        // console.log(hasUsers);
+
+        //!
+        console.log(hasUsers);
+
         return hasUsers;
     } catch (error) {
         console.error('检查是否有注册用户失败:', error);
@@ -63,19 +68,19 @@ export async function middleware(req: NextRequest) {
 
     //? 定义特殊路由
     const isLoginPage = req.nextUrl.pathname === ('/login');
-    const isSetupPage = req.nextUrl.pathname === ('/setup');
+    const isSetupPage = req.nextUrl.pathname === ('/admin/setup');
 
     //? 检查是否有注册用户
     const hasUser = await checkForRegisteredUsers();
-    // console.log(hasUsers);
 
     //? 场景1: 没有注册用户
     if (!hasUser) {
         //? 如果不在引导页，跳转到引导页
         if (!isSetupPage) {
-            return NextResponse.redirect(new URL('/setup', req.url));
+            return NextResponse.redirect(new URL('/admin/setup', req.url));
         }
     }
+
     //? 场景2: 已有注册用户
     else {
         //? 已登录用户访问登录页，跳转到首页
@@ -84,8 +89,8 @@ export async function middleware(req: NextRequest) {
         }
 
         //? 未登录用户访问非登录页，跳转到登录页
-        if (!token && !isLoginPage) {
-            return NextResponse.redirect(new URL('/login', req.url));
+        if (!isLoginPage && !token) {
+            return NextResponse.redirect(new URL('/admin/login', req.url));
         }
     }
 

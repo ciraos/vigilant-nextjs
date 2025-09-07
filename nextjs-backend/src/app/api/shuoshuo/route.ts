@@ -6,7 +6,7 @@ import {
 export async function POST(req: NextRequest) {
     const { content, tags } = await req.json();
 
-    const aa = await fetch('http://127.0.0.1:5000/shuoshuo', {
+    const aa = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/shuoshuo`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ content, tags })

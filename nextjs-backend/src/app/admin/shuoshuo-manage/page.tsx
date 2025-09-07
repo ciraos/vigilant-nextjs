@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 
-import ShuoshuoManage from "@/components/shuoshuo-manage";
+import ShuoshuoManagePage from "@/components/shuoshuo-manage";
 
 export const metadata: Metadata = {
     title: "xxx | 说说管理",
 }
 
-export default function ShuoshuoManagePage() {
+export default function ShuoshuoManage() {
     return (
         <>
-            <ShuoshuoManage />
+            <ShuoshuoManagePage />
         </>
     )
 }

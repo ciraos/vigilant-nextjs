@@ -10,7 +10,7 @@ db = SQLAlchemy()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
     JWTManager(app)
     
     # 初始化扩展
@@ -18,7 +18,7 @@ def create_app(config_class=Config):
     
     # 注册蓝图
     from app.routes import auth_bp
-    app.register_blueprint(auth_bp) # url_prefix='/api'
+    app.register_blueprint(auth_bp, url_prefix='/api/v1')
 
     # 创建数据库表
     with app.app_context():

@@ -23,6 +23,7 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    //! 获取说说数据
     useEffect(() => {
         const fetchData = async () => {
             try {

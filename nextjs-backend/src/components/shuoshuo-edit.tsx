@@ -26,7 +26,7 @@ const { TextArea } = Input;
 
 const { Title } = Typography;
 
-export default function ShuoshuoEdit() {
+export default function ShuoshuoEditPage() {
     const router = useRouter();
     const [value, setValue] = useState("");
 
@@ -37,7 +37,7 @@ export default function ShuoshuoEdit() {
             headers: { 'Content-Type': 'application/json' }
         });
         await v.json();
-        router.push('/shuoshuo-manage');
+        router.push('/admin/shuoshuo-manage');
         // console.log('Success:', values);
     };
 

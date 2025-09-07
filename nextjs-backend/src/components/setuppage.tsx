@@ -66,7 +66,7 @@ export default function SetupPage() {
             headers: { 'Content-Type': 'application/json' }
         });
         await y.json();
-        router.push('/login');
+        router.push('/admin/login');
         // console.log('Received values of form: ', values);
     };
 

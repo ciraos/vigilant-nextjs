@@ -1,10 +1,11 @@
+
 import "../globals.css";
 
-export default function LoginLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <>
             <html lang="zh-CN">
-                <body className="w-full h-screen flex justify-center items-center">
+                <body className="">
                     {children}
                 </body>
             </html>

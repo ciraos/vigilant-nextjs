@@ -26,7 +26,7 @@ const {
     Title
 } = Typography;
 
-export default function ShuoshuoManage() {
+export default function ShuoshuoManagePage() {
     const [data, setData] = useState<Shuoshuo[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         // 向目标API发送请求
-        const response = await fetch('http://127.0.0.1:5000/shuoshuo', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/shuoshuo`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

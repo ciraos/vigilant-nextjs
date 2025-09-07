@@ -6,7 +6,8 @@ flask/instance/data.db
 flask/app/__pycache__
 
 #!
-nextjs-admin/.next
-nextjs-admin/node_modules
-nextjs-admin/pnpm-lock.yaml
-nextjs-admin/pnpm-workspace.yaml
+nextjs-backend/.next
+nextjs-backend/out
+nextjs-backend/node_modules
+nextjs-backend/pnpm-lock.yaml
+nextjs-backend/pnpm-workspace.yaml

@@ -34,7 +34,7 @@ export default function NoteEditPage() {
             headers: { 'Content-Type': 'application/json' }
         });
         await ccc.json();
-        router.push('/note-manage');
+        router.push('/admin/note-manage');
         // console.log('Success:', values);
     };
 

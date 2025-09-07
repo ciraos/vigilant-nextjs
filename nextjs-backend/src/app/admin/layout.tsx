@@ -129,7 +129,7 @@ const getLevelKeys = (items1: LevelKeysProps[]) => {
 
 const levelKeys = getLevelKeys(items as LevelKeysProps[]);
 
-export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const router = useRouter();
     const [stateOpenKeys, setStateOpenKeys] = useState(['2', '23']);
     const { token: { } } = theme.useToken();
@@ -140,7 +140,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
         });
         const data = await c.json();
         if (data.success) {
-            router.push('/login');
+            router.push('/admin/login');
         }
         // console.log( data );
     };
